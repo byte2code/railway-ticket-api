@@ -30,5 +30,18 @@ public class RailwayService {
 	public Ticket getTicketByPnr(long pnr) {
 		return ticketMap.get(pnr);
 	}
+
+	public void deleteTicketByPnr(long pnr) {
+		Ticket ticket = getTicketByPnr(pnr);
+		list.remove(ticket);
+		ticketMap.remove(pnr);
+	}
+
+	public void updateTicket(Ticket ticket) {
+		Ticket existingTicket = getTicketByPnr(ticket.getPnr());
+		list.remove(existingTicket);
+		list.add(ticket);
+		ticketMap.put(ticket.getPnr(), ticket);
+	}
 		
 }

@@ -1,6 +1,6 @@
 # Railway Ticket API
 
-Spring Boot REST API for saving railway tickets in memory and retrieving them by PNR or as a full ticket list.
+Spring Boot REST API for creating, retrieving, updating, and deleting railway tickets using simple in-memory storage.
 
 ## Overview
 
@@ -12,6 +12,8 @@ This project demonstrates a compact Spring Boot API for basic railway ticket man
 - `POST` endpoint for saving ticket data
 - `GET` endpoint for listing all saved tickets
 - `GET` endpoint for retrieving a ticket by PNR
+- `PUT` endpoint for updating an existing ticket
+- `DELETE` endpoint for deleting a ticket by PNR
 - Service-layer separation from controller logic
 - In-memory storage using `List` and `Map`
 - JSON request and response handling
@@ -36,6 +38,8 @@ Useful endpoints:
 - `POST /railway/ticket`
 - `GET /railway/tickets`
 - `GET /railway/ticket/{pnr}`
+- `PUT /railway/ticket`
+- `DELETE /railway/ticket/{pnr}`
 
 Example request body:
 
@@ -52,5 +56,6 @@ Example request body:
 
 - Shows how to build a simple REST controller around a service layer
 - Demonstrates path variables and request-body binding in Spring Boot
+- Extends a basic ticket API into a fuller CRUD-style service
 - Uses in-memory collections to model basic data persistence without a database
 - Works well as a starter project for API design and endpoint testing
