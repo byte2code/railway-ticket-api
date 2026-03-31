@@ -1,8 +1,14 @@
 package railway.com.example.RailwayAndMeal.Entity;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
+
 public class Ticket {
 
+	@Min(1)
 	public long pnr;
+
+	@Size(min = 3, max = 20)
 	public String name;
 	public long age;
 	public String birth;

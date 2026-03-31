@@ -1,7 +1,9 @@
 package railway.com.example.RailwayAndMeal.controller;
 
 import java.util.List;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import railway.com.example.RailwayAndMeal.Entity.Ticket;
+import railway.com.example.RailwayAndMeal.exceptions.TicketBodyInvalidException;
 import railway.com.example.RailwayAndMeal.service.RailwayService;
 
 @RestController
@@ -23,12 +26,15 @@ public class Controller {
 
 	// a. POST "/railway/ticket":  It saves a railway ticket.
 	@PostMapping("/ticket")
-	public void addTicket(@RequestBody Ticket ticket) {
+	public void addTicket(@Valid @RequestBody Ticket ticket, BindingResult bindingResult) {
 	/**
 	 1. Call the required service method
 	 2. Add proper annotations for Post Mapping and attaching the
 	 RequestBody.
 	 **/
+	    if (bindingResult.hasErrors()) {
+		throw new TicketBodyInvalidException("Request not valid");
+	    }
 	    railwayservice.addTicket(ticket);
 	}
 
@@ -56,7 +62,10 @@ public class Controller {
 	}
 
 	@PutMapping("/ticket")
-	public void updateTicket(@RequestBody Ticket ticket) {
+	public void updateTicket(@Valid @RequestBody Ticket ticket, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			throw new TicketBodyInvalidException("Request not valid");
+		}
 		railwayservice.updateTicket(ticket);
 	}
 

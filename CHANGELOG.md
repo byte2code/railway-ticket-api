@@ -2,6 +2,23 @@
 
 All notable changes to this project are documented in this file.
 
+## [v4.0.0] - 2026-03-31
+
+### Summary
+Fourth version of the Railway Ticket API that adds request-body validation so invalid ticket payloads fail fast with clear `400 BAD REQUEST` responses.
+
+### Highlights
+
+- Added Bean Validation support through `spring-boot-starter-validation`.
+- Added validation constraints to the `Ticket` model.
+- Added `TicketBodyInvalidException` mapped to HTTP `400 BAD REQUEST`.
+- Updated create and update endpoints to validate incoming payloads before service execution.
+- Added controller tests for invalid request-body scenarios.
+
+### Notes
+
+This version improves API reliability by enforcing basic input quality at the controller boundary, making the project stronger as a REST validation showcase.
+
 ## [v3.0.0] - 2026-03-31
 
 ### Summary
