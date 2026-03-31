@@ -2,6 +2,23 @@
 
 All notable changes to this project are documented in this file.
 
+## [v3.0.0] - 2026-03-31
+
+### Summary
+Third version of the Railway Ticket API that strengthens the CRUD workflow with custom exception handling for missing tickets and duplicate PNR submissions.
+
+### Highlights
+
+- Added `TicketAlreadyExistsException` mapped to HTTP `409 CONFLICT`.
+- Added `TicketNotFoundException` mapped to HTTP `404 NOT FOUND`.
+- Updated the service layer to validate duplicate ticket creation.
+- Updated the service layer to fail clearly when a requested PNR is missing.
+- Expanded tests to cover duplicate and not-found cases.
+
+### Notes
+
+This version makes the API more realistic as a learning project by improving error handling and response behavior around common edge cases.
+
 ## [v2.0.0] - 2026-03-31
 
 ### Summary
