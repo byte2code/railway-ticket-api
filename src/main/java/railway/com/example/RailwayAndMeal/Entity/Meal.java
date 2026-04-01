@@ -2,9 +2,9 @@ package railway.com.example.RailwayAndMeal.Entity;
 
 public class Meal {
 	private long pnr;
-	private String mealType;
-	private boolean premium;
-	private String mealTime;
+	private String mealType = "North Indian";
+	private boolean premium = false;
+	private String mealTime = "Lunch";
 	
 	public Meal() {
 		super();
@@ -47,5 +47,5 @@ public class Meal {
 	public void setMealTime(String mealTime) {
 		this.mealTime = mealTime;
 	}
-	
+
 }

@@ -2,6 +2,23 @@
 
 All notable changes to this project are documented in this file.
 
+## [v6.0.0] - 2026-04-01
+
+### Summary
+Sixth version of the Railway Ticket API that extends the pantry-service integration by posting meal details during ticket creation.
+
+### Highlights
+
+- Added pantry-service write integration using `RestTemplate#postForEntity()`.
+- Updated ticket creation to save associated meal details in the external pantry service.
+- Added default meal values when ticket creation does not include a meal payload.
+- Restored a basic Spring Boot application test in the project source.
+- Refreshed the README to present both the read and write integration flow clearly.
+
+### Notes
+
+This version evolves the project from read-only external integration into two-way service communication while keeping the core in-memory ticket workflow unchanged.
+
 ## [v5.0.0] - 2026-04-01
 
 ### Summary

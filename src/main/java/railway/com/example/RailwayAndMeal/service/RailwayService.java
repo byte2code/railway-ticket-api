@@ -17,33 +17,43 @@ import railway.com.example.RailwayAndMeal.customException.TicketNotFoundExceptio
 @Service
 public class RailwayService {
 	
+	@Autowired
+	MealServiceCommunicator mealServiceCommunicator;
 	
 	public List<Ticket> list = new ArrayList<>();
 	public Map<Long,Ticket> ticketMap = new HashMap<>();
-	
-	@Autowired
-	MealServiceCommunicator mealServiceCommunicator;
 	
 	public Ticket getTicketByPnr(long pnr) {
 		if(ObjectUtils.isEmpty(ticketMap.get(pnr)))
 			throw new TicketNotFoundException("Ticket by given PNR does not exist");
 		
-		Ticket ticket = ticketMap.get(pnr);
-		/*
-		 * 1. Make a call to the getMealByPnr() method from
-		 *    MealServiceCommunicator and then set this meal
-		 *    to the ticket using ticket.setMeal() method.
-		 */
-		Meal updatedMeal = mealServiceCommunicator.getMealByPnr(pnr);
+		Ticket ticket = ticketMap.get(pnr);	
 		
-		ticket.setMeal(updatedMeal);
+		Meal meal = mealServiceCommunicator.getMealByPnr(pnr);
+		ticket.setMeal(meal);
+		
 		return ticket;
 	}
 	
 	public void addTicket(Ticket ticket) {
-		ticket.setMeal(new Meal(ticket.getPnr()));
+		/** 
+		    Complete the "addTicket()" method by calling "setMeal()" method.
+		    Write the logic such that "addTicket()" will save the "meal" object in the 
+		   "MealApplication" by using "RestTemplate" 
+		**/
+	    	
 		list.add(ticket);
-		ticketMap.put(ticket.getPnr(), ticket);	
+		ticketMap.put(ticket.getPnr(), ticket);
+
+		Meal meal = ticket.getMeal();
+		    if (meal == null) {
+		        // Create a default meal if none is provided
+		        meal = new Meal(ticket.getPnr());
+		        ticket.setMeal(meal);
+		    }
+
+		mealServiceCommunicator.setMeal(meal);
+		
 	}
 	
 	public List<Ticket> getAllTickets() {		

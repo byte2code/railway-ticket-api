@@ -1,17 +1,18 @@
 package railway.com.example.RailwayAndMeal.Entity;
 
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 public class Ticket {
 	
 	@Min(1)
-	public long pnr;
+	private long pnr;
 	@Size(min=3,max=20)
-	public String name;
-	public long age;
-	public String birth;
-	public Meal meal;
+	private String name;
+	private long age;
+	private String birth;
+	private Meal meal;
 	
 	public Ticket() {
 		
@@ -25,6 +26,8 @@ public class Ticket {
 		this.birth = birth;
 	}
 	
+	
+	
 	public Ticket(@Min(1) long pnr, @Size(min = 3, max = 20) String name, long age, String birth, Meal meal) {
 		super();
 		this.pnr = pnr;
@@ -33,7 +36,9 @@ public class Ticket {
 		this.birth = birth;
 		this.meal = meal;
 	}
-	
+
+
+
 	public Meal getMeal() {
 		return meal;
 	}
@@ -64,4 +69,5 @@ public class Ticket {
 	public void setBirth(String birth) {
 		this.birth = birth;
 	}
+
 }

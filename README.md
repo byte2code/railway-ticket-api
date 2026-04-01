@@ -1,10 +1,10 @@
 # Railway Ticket API
 
-Spring Boot REST API for managing railway tickets with in-memory storage, CRUD operations, validation, and external meal-service integration through `RestTemplate#getForEntity`.
+Spring Boot REST API for managing railway tickets with in-memory storage, CRUD operations, and pantry-service integration through `RestTemplate` GET and POST calls.
 
 ## Overview
 
-This project demonstrates a compact Spring Boot API for railway ticket management with a simple inter-service communication pattern. It builds on the earlier CRUD-style ticket workflow by fetching meal details from a separate pantry service when a ticket is retrieved, making the project a stronger microservice-learning showcase.
+This project demonstrates a compact Spring Boot API for railway ticket management with a simple inter-service communication pattern. It builds on the earlier CRUD-style ticket workflow by both fetching meal details from a pantry service during ticket lookup and posting meal details to that service when a ticket is created.
 
 ## Concepts and Features Covered
 
@@ -18,14 +18,15 @@ This project demonstrates a compact Spring Boot API for railway ticket managemen
 - Request-body validation support
 - Custom exception handling for invalid or missing tickets
 - Service-to-service communication with `RestTemplate`
-- `getForEntity()` usage for external API consumption
+- `getForObject()` usage for external reads
+- `postForEntity()` usage for external writes
+- Default meal creation when meal details are not provided
 
 ## Tech Stack
 
 - Java 17
 - Spring Boot 3
 - Spring Web
-- Spring Validation
 - Maven
 - JUnit 5
 
@@ -39,16 +40,18 @@ railway-ticket-api/
 ├── mvnw
 ├── mvnw.cmd
 └── src/
-    └── main/
-        ├── java/railway/com/example/RailwayAndMeal/
-        │   ├── communicator/
-        │   ├── controller/
-        │   ├── customException/
-        │   ├── Entity/
-        │   ├── service/
-        │   └── RailwayAndMealApplication.java
-        └── resources/
-            └── application.properties
+    ├── main/
+    │   ├── java/railway/com/example/RailwayAndMeal/
+    │   │   ├── communicator/
+    │   │   ├── controller/
+    │   │   ├── customException/
+    │   │   ├── Entity/
+    │   │   ├── service/
+    │   │   └── RailwayAndMealApplication.java
+    │   └── resources/
+    │       └── application.properties
+    └── test/
+        └── java/railway/com/example/RailwayAndMeal/
 ```
 
 ## How to Run
@@ -56,7 +59,7 @@ railway-ticket-api/
 1. Open a terminal in the project root.
 2. Run `mvn test`.
 3. Run `mvn spring-boot:run`.
-4. Ensure the meal service is available on `http://localhost:8081`.
+4. Ensure the pantry or meal service is available on `http://localhost:8081`.
 5. Use the API under `http://localhost:8080/railway`.
 
 Useful endpoints:
@@ -74,18 +77,24 @@ Example request body:
   "pnr": 1234567890,
   "name": "Aarav",
   "age": 28,
-  "birth": "LOWER"
+  "birth": "LOWER",
+  "meal": {
+    "pnr": 1234567890,
+    "mealType": "North Indian",
+    "premium": false,
+    "mealTime": "Lunch"
+  }
 }
 ```
 
 ## Learning Highlights
 
-- Shows how a basic railway ticket API can evolve into an inter-service learning project
-- Demonstrates `RestTemplate#getForEntity()` for consuming data from another service
+- Shows how a basic railway ticket API can evolve into a two-service integration example
+- Demonstrates outbound REST reads and writes using `RestTemplate`
+- Adds default meal assignment to keep ticket creation resilient when meal data is omitted
 - Keeps persistence intentionally simple so the service-to-service flow stays easy to follow
-- Extends the project beyond CRUD into API composition using external meal details
 
 ## GitHub Metadata
 
-- Suggested repository description: `Java 17 Spring Boot REST API for railway ticket management with CRUD operations, validation, and meal-service integration via RestTemplate.`
-- Suggested topics: `java`, `java-17`, `spring-boot`, `rest-api`, `resttemplate`, `microservices`, `railway-ticket`, `inter-service-communication`, `maven`, `learning-project`, `portfolio-project`
+- Suggested repository description: `Java 17 Spring Boot REST API for railway ticket management with CRUD operations and pantry-service integration using RestTemplate GET and POST calls.`
+- Suggested topics: `java`, `java-17`, `spring-boot`, `rest-api`, `resttemplate`, `microservices`, `railway-ticket`, `service-integration`, `maven`, `learning-project`, `portfolio-project`

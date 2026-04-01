@@ -1,33 +1,41 @@
 package railway.com.example.RailwayAndMeal.communicator;
 
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import railway.com.example.RailwayAndMeal.Entity.Meal;
 
-/*
- * 1. Create a method to get the Meal Details from meal service with the help
- * 	   of RestTemplate.
- * 2. Use getForEntity() method from the RestTemplate class.
- * 3. Make use of proper annotations to autowire.
- * 4. Use Postman app to test the APIs.
- */
 @Service
 public class MealServiceCommunicator {
-	private final RestTemplate restTemplate;
 	
-	public MealServiceCommunicator(RestTemplateBuilder restTemplateBuilder) {
-	    this.restTemplate = restTemplateBuilder.build();
+	private final RestTemplate restTemplate;
+	String baseURL = "http://localhost:8081/pantry";
+	
+	@Autowired
+	MealServiceCommunicator(RestTemplateBuilder restTemplateBuilder){
+		restTemplate = restTemplateBuilder.build();
 	}
 	
 	public Meal getMealByPnr(long pnr) {
-	    String urlString = "http://localhost:8081/pantry/meal/";
+		String url = baseURL + "/meal/" + pnr;
+		Meal meal = restTemplate.getForObject(url, Meal.class);
+		return meal;
+	}
+	
+	public void setMeal(Meal meal) {
+		/** Use the "postForEntity()" method to make a post call.
+		   This method saves a meal object in the "Meal Application". **/
 	    
-	    ResponseEntity<Meal> responseEntity = restTemplate.getForEntity(urlString+pnr, Meal.class);
+	    String urlString = "http://localhost:8081/pantry";
+	    restTemplate.postForEntity(urlString, meal, Object.class);
 	    
-	    return responseEntity.getBody();
+//	    HttpEntity requestEntity = new HttpEntity(meal);
+//	    restTemplate.exchange(urlString, HttpMethod.POST,requestEntity,Object.class);
 	}
 	
 }
