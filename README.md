@@ -1,10 +1,10 @@
 # Railway Ticket API
 
-Spring Boot REST API for managing railway tickets with in-memory storage, CRUD operations, custom exception handling, and request-body validation.
+Spring Boot REST API for managing railway tickets with in-memory storage, CRUD operations, validation, and external meal-service integration through `RestTemplate#getForEntity`.
 
 ## Overview
 
-This project demonstrates a compact Spring Boot API for basic railway ticket management. It focuses on request handling, simple in-memory data storage, and layered service design in a beginner-friendly format that is easy to review and extend.
+This project demonstrates a compact Spring Boot API for railway ticket management with a simple inter-service communication pattern. It builds on the earlier CRUD-style ticket workflow by fetching meal details from a separate pantry service when a ticket is retrieved, making the project a stronger microservice-learning showcase.
 
 ## Concepts and Features Covered
 
@@ -14,26 +14,50 @@ This project demonstrates a compact Spring Boot API for basic railway ticket man
 - `GET` endpoint for retrieving a ticket by PNR
 - `PUT` endpoint for updating an existing ticket
 - `DELETE` endpoint for deleting a ticket by PNR
-- Custom exception handling with HTTP status mapping
-- Bean validation for incoming ticket request bodies
-- Service-layer separation from controller logic
 - In-memory storage using `List` and `Map`
-- JSON request and response handling
+- Request-body validation support
+- Custom exception handling for invalid or missing tickets
+- Service-to-service communication with `RestTemplate`
+- `getForEntity()` usage for external API consumption
 
 ## Tech Stack
 
 - Java 17
 - Spring Boot 3
 - Spring Web
+- Spring Validation
 - Maven
 - JUnit 5
+
+## Project Structure
+
+```text
+railway-ticket-api/
+├── CHANGELOG.md
+├── README.md
+├── pom.xml
+├── mvnw
+├── mvnw.cmd
+└── src/
+    └── main/
+        ├── java/railway/com/example/RailwayAndMeal/
+        │   ├── communicator/
+        │   ├── controller/
+        │   ├── customException/
+        │   ├── Entity/
+        │   ├── service/
+        │   └── RailwayAndMealApplication.java
+        └── resources/
+            └── application.properties
+```
 
 ## How to Run
 
 1. Open a terminal in the project root.
-2. Run `mvn test` to verify the application context.
+2. Run `mvn test`.
 3. Run `mvn spring-boot:run`.
-4. Use the API under `http://localhost:8080/railway`.
+4. Ensure the meal service is available on `http://localhost:8081`.
+5. Use the API under `http://localhost:8080/railway`.
 
 Useful endpoints:
 
@@ -56,10 +80,12 @@ Example request body:
 
 ## Learning Highlights
 
-- Shows how to build a simple REST controller around a service layer
-- Demonstrates path variables and request-body binding in Spring Boot
-- Extends a basic ticket API into a fuller CRUD-style service
-- Introduces custom exceptions for API-level validation and clearer failure responses
-- Adds request validation to reject invalid payloads before service processing
-- Uses in-memory collections to model basic data persistence without a database
-- Works well as a starter project for API design and endpoint testing
+- Shows how a basic railway ticket API can evolve into an inter-service learning project
+- Demonstrates `RestTemplate#getForEntity()` for consuming data from another service
+- Keeps persistence intentionally simple so the service-to-service flow stays easy to follow
+- Extends the project beyond CRUD into API composition using external meal details
+
+## GitHub Metadata
+
+- Suggested repository description: `Java 17 Spring Boot REST API for railway ticket management with CRUD operations, validation, and meal-service integration via RestTemplate.`
+- Suggested topics: `java`, `java-17`, `spring-boot`, `rest-api`, `resttemplate`, `microservices`, `railway-ticket`, `inter-service-communication`, `maven`, `learning-project`, `portfolio-project`

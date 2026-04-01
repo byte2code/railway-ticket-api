@@ -2,6 +2,23 @@
 
 All notable changes to this project are documented in this file.
 
+## [v5.0.0] - 2026-04-01
+
+### Summary
+Fifth version of the Railway Ticket API that adds meal-service integration using `RestTemplate#getForEntity()` when fetching ticket details.
+
+### Highlights
+
+- Added a `Meal` entity to model pantry-service meal details.
+- Added `MealServiceCommunicator` to call the external meal service.
+- Updated ticket retrieval to enrich responses with meal information by PNR.
+- Added a `RestTemplate` bean to the application configuration.
+- Refreshed the README to position the project as an inter-service communication learning showcase.
+
+### Notes
+
+This version extends the project from standalone CRUD into a simple service-composition example while preserving the existing in-memory ticket workflow.
+
 ## [v4.0.0] - 2026-03-31
 
 ### Summary

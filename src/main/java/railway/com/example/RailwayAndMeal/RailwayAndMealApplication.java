@@ -11,5 +11,9 @@ public class RailwayAndMealApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(RailwayAndMealApplication.class, args);
 	}
-
+	
+	@Bean("restTemplate")
+	public RestTemplate getRestTemplate() {
+		return new RestTemplate();
+	}
 }
