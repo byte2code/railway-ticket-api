@@ -12,6 +12,7 @@ import org.springframework.util.ObjectUtils;
 import railway.com.example.RailwayAndMeal.Entity.Meal;
 import railway.com.example.RailwayAndMeal.Entity.Ticket;
 import railway.com.example.RailwayAndMeal.communicator.MealServiceCommunicator;
+import railway.com.example.RailwayAndMeal.customException.TicketBodyNotValidException;
 import railway.com.example.RailwayAndMeal.customException.TicketNotFoundException;
 
 @Service
@@ -36,44 +37,59 @@ public class RailwayService {
 	}
 	
 	public void addTicket(Ticket ticket) {
-		/** 
-		    Complete the "addTicket()" method by calling "setMeal()" method.
-		    Write the logic such that "addTicket()" will save the "meal" object in the 
-		   "MealApplication" by using "RestTemplate" 
-		**/
-	    	
+		ticket.setMeal(new Meal(ticket.getPnr()));
+		
+		mealServiceCommunicator.setMeal(ticket.getMeal());
+		
 		list.add(ticket);
 		ticketMap.put(ticket.getPnr(), ticket);
-
-		Meal meal = ticket.getMeal();
-		    if (meal == null) {
-		        // Create a default meal if none is provided
-		        meal = new Meal(ticket.getPnr());
-		        ticket.setMeal(meal);
-		    }
-
-		mealServiceCommunicator.setMeal(meal);
-		
 	}
 	
 	public List<Ticket> getAllTickets() {		
 		return list;
 	}
-	
+	/** Complete the "deleteTicket()" method by calling the "deleteMeal()" 
+	    method of MealServiceCommunicator" class.
+	**/
 	public void deleteTicketByPnr(long pnr) {
-		Ticket ticket = this.getTicketByPnr(pnr);
-		
+		Ticket ticket = this.getTicketByPnr(pnr);		
 		list.remove(ticket);
 		ticketMap.remove(ticket.getPnr());
+		
+		mealServiceCommunicator.deleteMeal(pnr);
 	}
-	
+
+	/**
+	Complete the "updateTicket()" method by calling the "updateMeal()" method of 
+	MealServiceCommunicator" class.
+	**/
 	public void updateTicket(Ticket ticket) {
 		Ticket existing_ticket = this.getTicketByPnr(ticket.getPnr());
-		
 		list.remove(existing_ticket);
 		ticketMap.remove(existing_ticket.getPnr());
 		
 		list.add(ticket);
 		ticketMap.put(ticket.getPnr(), ticket);
+		
+		
+		mealServiceCommunicator.updateMeal(ticket.getMeal());
+	}
+	
+	/*
+	 * 1. Create a service function to handle UpdateTicketPremium method from Controller.
+	 * 2. The service method should update the premium of the given ticket's meal.
+	 * 3. The service method should also make a call to the mealServiceCommunicator to update
+	 * 		the meal in the meal service.
+	 */
+	public void updateMealPremium(Ticket ticket, Long pnr ,boolean isPremium){
+		
+		if( ticket.getPnr() != pnr) {
+			throw new TicketBodyNotValidException("Pnr does not match");
+		}
+
+		//write code here
+		ticket.getMeal().setPremium(isPremium);
+		
+		mealServiceCommunicator.updateMeal(ticket.getMeal());
 	}
 }

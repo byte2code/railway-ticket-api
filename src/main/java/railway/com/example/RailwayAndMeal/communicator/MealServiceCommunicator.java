@@ -1,6 +1,5 @@
 package railway.com.example.RailwayAndMeal.communicator;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
@@ -9,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import railway.com.example.RailwayAndMeal.Entity.Meal;
+import railway.com.example.RailwayAndMeal.Entity.Ticket;
 
 @Service
 public class MealServiceCommunicator {
@@ -28,14 +28,30 @@ public class MealServiceCommunicator {
 	}
 	
 	public void setMeal(Meal meal) {
-		/** Use the "postForEntity()" method to make a post call.
-		   This method saves a meal object in the "Meal Application". **/
+		String url = baseURL + "/meal";
+		restTemplate.postForEntity(url, meal, Object.class);
+	}
+	/**
+	 Complete the "deleteMeal()" method by using the "exchange()" 
+	 method of the "RestTemplate" to make a delete call to the given URL. 
+	 **/
+	
+	public void deleteMeal(Long pnr) {
+	    String urlString = baseURL +"/meal/" + pnr;
 	    
-	    String urlString = "http://localhost:8081/pantry";
-	    restTemplate.postForEntity(urlString, meal, Object.class);
+	    restTemplate.exchange(urlString, HttpMethod.DELETE,null,Object.class);
+	}
+	
+	/** 
+	Complete the "updateMeal()" method by using the "exchange()" method of the 
+	"RestTemplate" to make a put call to the given URL.
+	**/
+	public void updateMeal(Meal meal) {
+	    String urlString = baseURL + "/meal";
 	    
-//	    HttpEntity requestEntity = new HttpEntity(meal);
-//	    restTemplate.exchange(urlString, HttpMethod.POST,requestEntity,Object.class);
+	    HttpEntity<Meal> requestEntity = new HttpEntity<>(meal);
+	    
+	    restTemplate.exchange(urlString, HttpMethod.PUT,requestEntity,Object.class);
 	}
 	
 }

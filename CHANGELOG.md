@@ -2,6 +2,23 @@
 
 All notable changes to this project are documented in this file.
 
+## [v7.0.0] - 2026-04-01
+
+### Summary
+Seventh version of the Railway Ticket API that completes pantry-service synchronization for ticket update and delete operations and adds a premium-meal update endpoint.
+
+### Highlights
+
+- Added pantry-service delete integration using `RestTemplate#exchange()` with `DELETE`.
+- Added pantry-service update integration using `RestTemplate#exchange()` with `PUT`.
+- Added `PUT /railway/ticket/{pnr}/premium/{isPremium}` for updating meal premium status by PNR.
+- Updated the service layer to synchronize meal updates and deletes alongside ticket changes.
+- Refreshed the README to present the project as a fuller cross-service CRUD integration example.
+
+### Notes
+
+This version expands the railway project from create/read pantry coordination into a more complete two-service lifecycle workflow.
+
 ## [v6.0.0] - 2026-04-01
 
 ### Summary

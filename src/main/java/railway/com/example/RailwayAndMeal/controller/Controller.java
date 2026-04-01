@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-
 import railway.com.example.RailwayAndMeal.Entity.Ticket;
 import railway.com.example.RailwayAndMeal.customException.TicketBodyNotValidException;
 import railway.com.example.RailwayAndMeal.service.RailwayService;
@@ -26,7 +24,7 @@ public class controller {
 	private RailwayService railwayservice;		
 	
 	@PostMapping("/ticket")
-	public void addTicket(@RequestBody Ticket ticket, BindingResult bindingResult) {
+	public void addTicket( @RequestBody Ticket ticket, BindingResult bindingResult) {
 		if(bindingResult.hasErrors())
 			throw new TicketBodyNotValidException("Request Body violates restrictions");
 		railwayservice.addTicket(ticket);
@@ -51,6 +49,18 @@ public class controller {
 	@PutMapping("/ticket")
 	public void updateTicket(@RequestBody Ticket ticket) {
 		railwayservice.updateTicket(ticket);
+	}
+	/**
+	 * Complete the method body for the updateTicketPremium()
+	 * Add required parameters with proper annotations.
+	 */
+	@PutMapping("/ticket/{pnr}/premium/{isPremium}")
+	public void updateTicketPremium(@PathVariable long pnr, @PathVariable boolean isPremium) {
+	    // Fetch the ticket by PNR
+	    Ticket ticket = railwayservice.getTicketByPnr(pnr);
+
+	    // Update the premium flag in the meal associated with the ticket
+	    railwayservice.updateMealPremium(ticket, pnr, isPremium);
 	}
 
 }
